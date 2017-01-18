@@ -29,6 +29,7 @@ var appClientFiles = [
   'app_client/reviewModal/reviewModal.controller.js',
   'app_client/common/services/geolocation.service.js',
   'app_client/common/services/loc8rData.service.js',
+  'app_client/common/services/authenticationServices.js',
   'app_client/common/filters/formatDistance.filter.js',
   'app_client/common/filters/addHtmlLineBreaks.filter.js',
   'app_client/common/directives/navigation/navigation.directive.js',
@@ -62,6 +63,10 @@ app.use('/api', routesApi);
 app.use(function(req, res) {
   res.sendFile(path.join(__dirname, 'app_client', 'index.html'));
 });
++..
+
+++
+
 
 app.use(function (err, req, res, next) {
 if (err.name === 'UnauthorizedError') {
