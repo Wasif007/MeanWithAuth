@@ -19,6 +19,6 @@ router.delete('/locations/:locationid/reviews/:reviewid', ctrlReviews.reviewsDel
 
 //Validation
 router.post('/login',ctrlValidation.login);
-router.post('/signUp',ctrlValidation.signUp);
+router.post('/signUp',ctrlValidation.signup);
 
 module.exports = router;
