@@ -59,12 +59,12 @@ module.exports.reviewsCreate = function(req, res) {
 };
 
 
-var doAddReview = function(req, res, location) {
+var doAddReview = function(req, res, location,authorName) {
   if (!location) {
     sendJSONresponse(res, 404, "locationid not found");
   } else {
     location.reviews.push({
-      author: req.body.author,
+      author: authorName,
       rating: req.body.rating,
       reviewText: req.body.reviewText
     });
