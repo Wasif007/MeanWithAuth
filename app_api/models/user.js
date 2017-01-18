@@ -30,7 +30,7 @@ loginSchema.methods.generatingJsonWebToken=function(){
 		email:this.email,
 		name:this.name,
 		exp: parseInt(expairyData.getTime() / 1000),
-	},"I am a Secret");
+	},process.env.JWT_SECRET);
 }
 
 mongoose.model('User', loginSchema);
