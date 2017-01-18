@@ -1,14 +1,41 @@
 var mongoose = require('mongoose');
 var Loc = mongoose.model('Location');
+var User=mongoose.model('User');
 
 var sendJSONresponse = function(res, status, content) {
   res.status(status);
   res.json(content);
 };
 
+var getAuthor=function(req,res,callBack){
+if(req.payload && req.payload.email)
+{
+User.findOne({email:req.payload.email}).exec(function(err,user){
+if(err)
+  {sendJSONresponse(res,404,err);
+return;
+}
+else if(!user)
+{
+  sendJSONresponse(res,404,{
+    "message":"Not found"
+  });
+  return;
+}
+callBack(req,res,user);
+});
+}
+else
+{
+  sendJSONresponse(res,404,{
+    "message":"No User"
+  });
+}
+}
 /* POST a new review, providing a locationid */
 /* /api/locations/:locationid/reviews */
 module.exports.reviewsCreate = function(req, res) {
+  getAuthor(req,res,function(req,res,userName){
   if (req.params.locationid) {
     Loc
       .findById(req.params.locationid)
@@ -18,7 +45,7 @@ module.exports.reviewsCreate = function(req, res) {
           if (err) {
             sendJSONresponse(res, 400, err);
           } else {
-            doAddReview(req, res, location);
+            doAddReview(req, res, location,userName);
           }
         }
     );
@@ -26,7 +53,9 @@ module.exports.reviewsCreate = function(req, res) {
     sendJSONresponse(res, 404, {
       "message": "Not found, locationid required"
     });
-  }
+  }  
+  })
+  
 };
 
 
