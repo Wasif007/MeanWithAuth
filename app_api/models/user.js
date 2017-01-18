@@ -1,15 +1,19 @@
-var mongoose = require('mongoose');
-var crypto=require('crypto');
-var jwt=require('jsonwebtoken');
-var loginSchema = new mongoose.Schema({
-    name: {type: String, required: true},
-    email: {
-        type: String,
-        required: true,
-        unique:true
-    },
-    hash:String,
-    salt:String
+var mongoose = require( 'mongoose' );
+var crypto = require('crypto');
+var jwt = require('jsonwebtoken');
+
+var loginSchema=new mongoose.Schema({
+	hash:String,
+	salt:String,
+	email:{
+		type:String,
+		unique:true,
+		required:true
+	},
+	name:{
+		type:String,
+		required:true
+	}
 });
 
 loginSchema.methods.setPassword = function(password){
@@ -22,7 +26,8 @@ loginSchema.methods.validPassword = function(password) {
   return this.hash === hash;
 };
 
-loginSchema.methods.generatingJsonWebToken=function(){
+loginSchema.methods.jsonWebTokenGenerating=function(){
+	
 	var expairyData=new Date();
 	expairyData.setDate(expairyData.getDate()+7);
 	return jwt.sign({
@@ -32,5 +37,4 @@ loginSchema.methods.generatingJsonWebToken=function(){
 		exp: parseInt(expairyData.getTime() / 1000),
 	},process.env.JWT_SECRET);
 }
-
-mongoose.model('User', loginSchema);
+mongoose.model('User',loginSchema);
