@@ -14,6 +14,11 @@
         controller: 'aboutCtrl',
         controllerAs: 'vm'
       })
+      .when('/signup', {
+        templateUrl: '/auth/signup/signupview.html',
+        controller: 'signupCtrl',
+        controllerAs: 'vm'
+      })
       .when('/location/:locationid', {
         templateUrl: '/locationDetail/locationDetail.view.html',
         controller: 'locationDetailCtrl',
